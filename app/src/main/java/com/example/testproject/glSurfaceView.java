@@ -9,6 +9,8 @@ public class glSurfaceView extends GLSurfaceView {
 
     openGLRenderer renderer;
 
+    Vec2 wordCords = new Vec2();
+
     private final float TOUCH_SCALE_FACTOR = 1.0f / 1080;
     private float previousX;
     private float previousY;
@@ -30,6 +32,51 @@ public class glSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
         setPreserveEGLContextOnPause(true);
         setRenderer(renderer);
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        // MotionEvent reports input details from the touch screen
+        // and other input controls. In this case, you are only
+        // interested in events where the touch position changed.
+
+        float x = e.getX();
+        float y = e.getY();
+
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+
+                float dx = x - previousX;
+                float dy = y - previousY;
+
+
+                renderer.setHorizon(renderer.getHorizon() + ((-dx) * TOUCH_SCALE_FACTOR));
+                renderer.setVert(renderer.getVert() + ((dy) * TOUCH_SCALE_FACTOR));
+
+                requestRender();
+
+                break;
+
+            case  MotionEvent.ACTION_DOWN:
+
+                wordCords = cordChecker.wordCords(x, y);
+                System.out.println("Clicked on coordinates: " + wordCords.X() + ", " + wordCords.Y());
+                if(cordChecker.chekCord((float) wordCords.X(), (float) wordCords.Y())){
+
+//                               DO  SOMETHING!!!!!!!!!
+                    System.out.println("Clicked on the right place!!!!!!!!!!!!!!");
+
+                    /*renderer.drawAddBar();*/
+                    requestRender();
+
+                }
+                break;
+        }
+
+        previousX = x;
+        previousY = y;
+        return true;
     }
 
 
