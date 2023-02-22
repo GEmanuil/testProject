@@ -1,10 +1,27 @@
 package com.example.testproject;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Insets;
+import android.graphics.Rect;
 import android.opengl.Matrix;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowInsets;
+import android.view.WindowMetrics;
 
-public class cordChecker {
+import androidx.annotation.NonNull;
+
+public class cordChecker extends Activity {
+    static Context ac;
+    static Activity ac2;
+    public cordChecker(Activity ac) {
+        this.ac = ac.getApplicationContext();
+        this.ac2 = ac;
+    }
 
     static boolean chekCord(float x, float y){
 
@@ -35,11 +52,13 @@ public class cordChecker {
         float topLeftY = objCords[1];
         float bottomLeftY = objCords[4];
 
+
+
         int screenW  = Resources.getSystem().getDisplayMetrics().widthPixels;
         int screenH = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-//        System.out.println("displayWidth: " + displayWidth);
-//        System.out.println("displayHeight: " + displayHeight);
+
+        System.out.println("displayHeight: " + screenH);
 
         float[] invertedMatrix, transformMatrix,
                 normalizedInPoint, outPoint;
@@ -48,7 +67,9 @@ public class cordChecker {
         normalizedInPoint = new float[4];
         outPoint = new float[4];
 
+/*
         int oglTouchY = (int) (screenH - y);
+*/
 
                /* Transform the screen point to clip
        space in ogl (-1,1) */
@@ -57,7 +78,7 @@ public class cordChecker {
         normalizedInPoint[1] =
                 //  -- (-1 (original), -1.073 hard coded to fix onTouch height problem) --
                 //         BACK TO ORIGINAL !?!?!?!
-                (float) ((oglTouchY) * 2.0f / screenH - 1.0);
+                - (float) ((y) / 2160 * 2 - 1.0);
         normalizedInPoint[2] = -1.0f;
         normalizedInPoint[3] = 1.0f;
 
