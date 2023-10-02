@@ -35,7 +35,7 @@ public class glSurfaceView extends GLSurfaceView {
     }
 
 
-    @Override
+   /* @Override
     public boolean onTouchEvent(MotionEvent e) {
         // MotionEvent reports input details from the touch screen
         // and other input controls. In this case, you are only
@@ -67,7 +67,7 @@ public class glSurfaceView extends GLSurfaceView {
 //                               DO  SOMETHING!!!!!!!!!
                     System.out.println("Clicked on the right place!!!!!!!!!!!!!!");
 
-                    /*renderer.drawAddBar();*/
+                    *//*renderer.drawAddBar();*//*
                     requestRender();
 
                 }
@@ -77,7 +77,7 @@ public class glSurfaceView extends GLSurfaceView {
         previousX = x;
         previousY = y;
         return true;
-    }
+    }*/
 
 
 }
