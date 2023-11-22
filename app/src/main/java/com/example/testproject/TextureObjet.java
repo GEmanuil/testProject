@@ -1,5 +1,6 @@
 package com.example.testproject;
 
+import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.GL_TRIANGLE_FAN;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glUniform1i;
@@ -31,17 +32,21 @@ public class TextureObjet {
 
             //rendering the first two symbols in the atlas
             //Sprite 1
-            -0.25f, 0.25f,   0.05f, 0.05f,
+            //-0.25f, 0.25f,   0.05f, 0.05f,
             -0.5f, 0f,       0f, 0.1f,
-             0f, 0f,         0f, 0f,
-             0f, 0.5f,       0f, 0.1f,
-             -0.5f, 0.5f,    0.1f, 0.1f,
-            -0.5f, 0f,       0f, 0.1f,
+            0f, 0f,         0.1f, 0.1f,
+            0f, 0.5f,        0.1f, 0f,
+
+            0f, 0.5f,        0.1f, 0f,
+            -0.5f, 0.5f,      0f, 0f,
+             -0.5f, 0f,       0f, 0.1f,
+
 
             //Sprite 2
-            0.25f, -0.25f,      0.15f, 0.05f,
             0f, -0.5f,            0.1f, 0.1f,
             0.5f, -0.5f,            0.2f, 0.1f,
+            0.5f, 0f,            0.2f, 0f,
+
             0.5f, 0f,            0.2f, 0f,
             0f, 0f,            0.1f, 0f,
             0f, -0.5f,            0.1f, 0.1f
@@ -76,7 +81,7 @@ public class TextureObjet {
 
         //it works only for 0 - 6
         //the second sprite is shown only if you comment the first one
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 12);
+        glDrawArrays(GL_TRIANGLES , 0, 12);
         vertexBuffer.end();
     }
 
