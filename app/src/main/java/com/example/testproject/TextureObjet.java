@@ -23,11 +23,13 @@ public class TextureObjet {
             // Order of coordinates: X, Y, S, T
             // Triangle Fan
             0f, 0f,        0.5f, 0.5f,
-            -1f, -0.25f,    0f, 1f,
-            1f, -0.25f,    1f, 1f,
-            1f, 0.25f,     1f, 0.0f,
-            -1f, 0.25f,     0f, 0.0f,
-            -1f, -0.25f,    0f, 1f,
+            -1f, -1f,    0f, 1f,
+            1f, -1f,    1f, 1f,
+            1f, 1f,     1f, 0.0f,
+            -1f, 1f,     0f, 0.0f,
+            -1f, -1f,    0f, 1f
+
+
 
     };
     private final VertexBuffer vertexBuffer;
