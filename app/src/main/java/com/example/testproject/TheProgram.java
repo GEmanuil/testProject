@@ -23,9 +23,13 @@ public class TheProgram extends ShaderProgram{
         private final int aPositionLocation;
         private final int aTextureCoordinatesLocation;
         private final int uBoolIsTexture;
+        private final int uColorLocation;
 
         //colors for custom objets
-        private float r, g, b;
+        private float r = 0.5f;
+        private float g = 0.5f;
+        private float b = 0.5f;
+
         private int itIsATexture;
 
     public TheProgram(Context context){
@@ -41,6 +45,8 @@ public class TheProgram extends ShaderProgram{
             aTextureCoordinatesLocation = glGetAttribLocation(program, A_TEXTURE_COORDINATES);
 
             uBoolIsTexture = glGetUniformLocation(program, U_ISTEXTURE);
+
+            uColorLocation = glGetUniformLocation(program, U_COLOR);
             itIsATexture = 0;
         }
 
@@ -66,6 +72,15 @@ public class TheProgram extends ShaderProgram{
             glUniform1i(uTextureUnitLocation, 0);
 
         }
+
+    public void setUniforms(float[] matrix) {
+        // Pass the matrix into the shader program.
+        glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
+
+
+        glUniform4f(uColorLocation, r, g, b, 0.5f);
+
+    }
 
 
         public void isTexture(boolean texture) {

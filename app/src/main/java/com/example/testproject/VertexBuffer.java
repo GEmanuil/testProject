@@ -54,7 +54,6 @@ public class VertexBuffer {
 
     public void setVertexAttribPointer(int dataOffset, int attributeLocation, int componentCount, int stride) {
         this.attributeLocation = attributeLocation;
-
         glEnableVertexAttribArray(attributeLocation);
         glVertexAttribPointer(attributeLocation, componentCount, GL_FLOAT, false, stride, dataOffset);
 

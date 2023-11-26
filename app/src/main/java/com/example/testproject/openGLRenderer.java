@@ -24,7 +24,10 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
     float[] scratch = new float[16];
     static float[] rotationMatrix = new float[16];
 
+    Square square;
     TextureObjet textureObjet;
+    GraphObject gO;
+
     TheProgram program;
     private int texture;
 
@@ -36,13 +39,14 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
         this.context = context;                         // Save Specified Context
     }
 
-
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glClearColor(1f, 1f, 1f, 1f);
 
         program = new TheProgram(context);
+        gO = new GraphObject(20);
+
         textureObjet = new TextureObjet();
         texture = TextureHelper.loadTexture(context, R.drawable.atlas);
 
@@ -70,7 +74,6 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
         setLookAtM(viewMatrix, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f);
     }
 
-
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
@@ -80,17 +83,17 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
 
 
         program.useProgram();
-        program.setUniforms(vPMatrix, texture);
+        program.setUniforms(vPMatrix);
 
-        textureObjet.bindData(program);
-        textureObjet.draw();
+        gO.bindData(program);
+        gO.draw();
+
+        /*square.draw(vPMatrix);*/
+
+/*        textureObjet.bindData(program);
+        textureObjet.draw();*/
 
     }
-
-
-
-
-
 
     public static int loadShader(int type, String shaderCode){
 
