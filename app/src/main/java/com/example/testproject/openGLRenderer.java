@@ -85,7 +85,7 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
         program.useProgram();
         program.setUniforms(vPMatrix);
 
-        gO.bindData(program);
+        /*gO.bindData(program);*/
         gO.draw();
 
         /*square.draw(vPMatrix);*/
