@@ -17,48 +17,31 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 public class VertexBuffer {
-    private final int bufferId;
-    private final int BYTES_PER_FLOAT = 4;
-    int attributeLocation;
 
+    private final FloatBuffer floatBuffer;
     public VertexBuffer(float[] vertexData) {
-        // Allocate a buffer.
-        final int[] buffers = new int[1];
-        glGenBuffers(1, buffers, 0);
-        if (buffers[0] == 0) {
-            throw new RuntimeException("Could not create a new vertex buffer object.");
+            floatBuffer = ByteBuffer.allocateDirect(vertexData.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
+                    //vertex coordinates!!!
+                    .put(vertexData);
         }
-        bufferId = buffers[0];
 
-        // Bind to the buffer.
-        glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+        public void setVertexAttribPointer(int dataOffset, int attributeLocation, int componentCount, int stride) {
+            floatBuffer.position(dataOffset);
 
-        // Transfer data to native memory.
-        FloatBuffer buffer = ByteBuffer
-                .allocateDirect(vertexData.length * BYTES_PER_FLOAT)
-                .order(ByteOrder.nativeOrder())
-                .asFloatBuffer()
-                .put(vertexData);
-        buffer.position(0);
+            //glVertexAttribPointer(...) - kazva na opengl-a kude v pametta da sa tezi vertex-i i kak da gi chete
+            //index = attributeLocation - tova e lokaciqta na koqto da pishe vertex-ite
+            //size = componentCount - s kolko koordinati opisvame vertex-a
+            //type = GL_FLOAT
+            //normalized = false - tva ni interesuva samo ako polzvame int data??
+            //stride = POSITION_COMPONENT_COUNT + TEXTURE_COORDINATES_COMPONENT_COUNT) * BYTES_PER_FLOAT - informaciq za tova kolko vida argumenti se pazqt vuv vertex array-a
+            //Buffer ptr = flatBuffer - kude e vertex array-a
+            glVertexAttribPointer(attributeLocation, componentCount, GL_FLOAT, false, stride, floatBuffer);
 
+            //trqbav da enable-nem attributite
+            glEnableVertexAttribArray(attributeLocation);
+            floatBuffer.position(0);
+        }
 
-        // Transfer data from native memory to the GPU buffer.
-        glBufferData(GL_ARRAY_BUFFER, vertexData.length * BYTES_PER_FLOAT,
-                buffer, GL_STATIC_DRAW);
-
-        // IMPORTANT: Unbind from the buffer when we're done with it.
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        // We let vertexArray go out of scope, but it won't be released
-        // until the next time the garbage collector is run.
-    }
-
-    public void setVertexAttribPointer(int dataOffset, int attributeLocation, int componentCount, int stride) {
-        this.attributeLocation = attributeLocation;
-        glEnableVertexAttribArray(attributeLocation);
-        glVertexAttribPointer(attributeLocation, componentCount, GL_FLOAT, false, stride, dataOffset);
-
-
-    }
 
 /*    public void updateBuffer(float[] vertexData) {
         buffer.clear();
@@ -72,12 +55,12 @@ public class VertexBuffer {
 
 
     public void start() {
-        glBindBuffer(GL_ARRAY_BUFFER, bufferId);
+        /*glBindBuffer(GL_ARRAY_BUFFER, bufferId);*/
     }
 
     public void end() {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glDisableVertexAttribArray(attributeLocation);
+        /*glDisableVertexAttribArray(attributeLocation);*/
 
 
         glUseProgram(0);

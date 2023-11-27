@@ -45,7 +45,7 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
         GLES20.glClearColor(1f, 1f, 1f, 1f);
 
         program = new TheProgram(context);
-        gO = new GraphObject(20);
+        gO = new GraphObject(30);
         square = new Square();
 
         textureObjet = new TextureObjet();
