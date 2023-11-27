@@ -11,6 +11,8 @@ public class glSurfaceView extends GLSurfaceView {
 
     Vec2 wordCords = new Vec2();
 
+    Context context;
+
     private final float TOUCH_SCALE_FACTOR = 1.0f / 1080;
     private float previousX;
     private float previousY;
@@ -31,6 +33,9 @@ public class glSurfaceView extends GLSurfaceView {
     private void init (Context context) {
         setEGLContextClientVersion(2);
         setPreserveEGLContextOnPause(true);
+
+        this.context = context;
+
         setRenderer(renderer);
     }
 
@@ -40,6 +45,10 @@ public class glSurfaceView extends GLSurfaceView {
         // MotionEvent reports input details from the touch screen
         // and other input controls. In this case, you are only
         // interested in events where the touch position changed.
+
+        int a = getHeight();
+
+        System.out.println("a height - " + a);
 
         float x = e.getX();
         float y = e.getY();

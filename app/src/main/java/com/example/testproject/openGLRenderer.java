@@ -46,6 +46,7 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
 
         program = new TheProgram(context);
         gO = new GraphObject(20);
+        square = new Square();
 
         textureObjet = new TextureObjet();
         texture = TextureHelper.loadTexture(context, R.drawable.atlas);
@@ -82,11 +83,12 @@ public class openGLRenderer extends Thread implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0);
 
 
-        program.useProgram();
-        program.setUniforms(vPMatrix);
+/*        program.useProgram();
+        program.setUniforms(vPMatrix);*/
 
         /*gO.bindData(program);*/
-        gO.draw();
+        gO.draw(vPMatrix);
+        /*square.draw(vPMatrix);*/
 
         /*square.draw(vPMatrix);*/
 

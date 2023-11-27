@@ -54,7 +54,7 @@ public class GraphObject {
 
     public GraphObject(int numbOfRectangles) {
         this.numOfRectangles = numbOfRectangles;
-        vertecies = new float[6 * numbOfRectangles * STRIDE];
+        vertecies = new float[6 * numbOfRectangles * 2];
         configureData(numbOfRectangles);
 
         modelMatrix = new float[16];
@@ -87,28 +87,28 @@ public class GraphObject {
         for (int i = 0; i < numbOfRectangles; i++) {
 
             //Triangle 1
-            tempVertex[i * 12 + 0] = -6 + c*i;
-            tempVertex[i * 12 + 1] = f(-6 + c*i);
+            vertecies[i * 12 + 0] = -6 + c*i;
+            vertecies[i * 12 + 1] = f(-6 + c*i);
 
-            tempVertex[i * 12 + 2] = Math.abs(-6 + c*i);
-            tempVertex[i * 12 + 3] = Math.abs(f((-6 + c*i)));
+            vertecies[i * 12 + 2] = Math.abs(-6 + c*i);
+            vertecies[i * 12 + 3] = Math.abs(f((-6 + c*i)));
 
-            tempVertex[i * 12 + 4] = Math.abs(-6 + c*(i + 1));
-            tempVertex[i * 12 + 5] = Math.abs(f(-6 + c*(i + 1)));
+            vertecies[i * 12 + 4] = Math.abs(-6 + c*(i + 1));
+            vertecies[i * 12 + 5] = Math.abs(f(-6 + c*(i + 1)));
 
 
             //Triangle 2
-            tempVertex[i * 12 + 6] = Math.abs(-6 + c*(i + 1));
-            tempVertex[i * 12 + 7] = Math.abs(f(-6 + c*(i + 1)));
+            vertecies[i * 12 + 6] = Math.abs(-6 + c*(i + 1));
+            vertecies[i * 12 + 7] = Math.abs(f(-6 + c*(i + 1)));
 
-            tempVertex[i * 12 + 8] = (-6 + c*(i + 1));
-            tempVertex[i * 12 + 9] = f((-6 + c*(i + 1)));
+            vertecies[i * 12 + 8] = (-6 + c*(i + 1));
+            vertecies[i * 12 + 9] = f((-6 + c*(i + 1)));
 
-            tempVertex[i * 12 + 10] = (-6 + c*i);
-            tempVertex[i * 12 + 11] = f(-6 + c*i);
+            vertecies[i * 12 + 10] = (-6 + c*i);
+            vertecies[i * 12 + 11] = f(-6 + c*i);
         }
 
-        vertexBuffer = new VertexBuffer(tempVertex);
+        vertexBuffer = new VertexBuffer(vertecies);
     }
 
 /*    public void bindData(TheProgram program) {
@@ -118,14 +118,11 @@ public class GraphObject {
 
     }*/
 
-    public void draw() {
-
-        vertexBuffer.start();
-
-
-
+    public void draw(float[] vPMatrix) {
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(mProgram);
+
+        vertexBuffer.start();
 
         // get handle to vertex shader's vPosition member
         positionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
@@ -139,7 +136,7 @@ public class GraphObject {
         // get handle to fragment shader's vColor member
         colorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
-        float[] color = {0.5f, 0.5f, 0.5f};
+        float[] color = {1f, 1f, 0f, 0f};
         // Set color for drawing the triangle
         GLES20.glUniform4fv(colorHandle, 1, color, 0 );
 
@@ -148,11 +145,11 @@ public class GraphObject {
         vPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
 
         // Pass the projection and view transformation to the shader
-        GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, modelMatrix, 0);
+        GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, vPMatrix, 0);
 
 
 
-        glDrawArrays(GL_TRIANGLES , 0, 3);
+        glDrawArrays(GL_TRIANGLES , 0, 6);
 
 
         vertexBuffer.end();
